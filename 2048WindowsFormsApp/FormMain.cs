@@ -304,5 +304,11 @@ namespace _2048WindowsFormsApp
         {
             Application.Exit();
         }
+
+        private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var rules = new FormRule();
+            rules.ShowDialog();
+        }
     }
 }
