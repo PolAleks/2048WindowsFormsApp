@@ -49,7 +49,9 @@ namespace _2048WindowsFormsApp
                 int rowIndex = numberCell / _mapSize;
                 int columnIndex = numberCell % _mapSize;
 
-                _labelCells[rowIndex, columnIndex].Text = "2";
+                // Генерация чилса 2 или 4 в соотношении 75% на 25%
+                var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
+                _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
 
             labelScoreValue.Text = _score.ToString();
