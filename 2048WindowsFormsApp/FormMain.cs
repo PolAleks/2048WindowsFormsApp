@@ -294,5 +294,21 @@ namespace _2048WindowsFormsApp
             }
             GenerateNumber();
         }
+
+        private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var rules = new FormRule();
+            rules.ShowDialog();
+        }
     }
 }
