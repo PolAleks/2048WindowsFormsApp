@@ -35,6 +35,8 @@
             this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelBest = new System.Windows.Forms.Label();
+            this.labelBestValue = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,14 +83,14 @@
             // restartToolStripMenuItem
             // 
             this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            this.restartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.restartToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.restartToolStripMenuItem.Text = "Перезапустить";
             this.restartToolStripMenuItem.Click += new System.EventHandler(this.restartToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.exitToolStripMenuItem.Text = "Выход";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -99,11 +101,33 @@
             this.rulesToolStripMenuItem.Text = "Правила игры";
             this.rulesToolStripMenuItem.Click += new System.EventHandler(this.rulesToolStripMenuItem_Click);
             // 
+            // labelBest
+            // 
+            this.labelBest.AutoSize = true;
+            this.labelBest.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBest.Location = new System.Drawing.Point(218, 34);
+            this.labelBest.Name = "labelBest";
+            this.labelBest.Size = new System.Drawing.Size(67, 16);
+            this.labelBest.TabIndex = 3;
+            this.labelBest.Text = "Лучший:";
+            // 
+            // labelBestValue
+            // 
+            this.labelBestValue.AutoSize = true;
+            this.labelBestValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBestValue.Location = new System.Drawing.Point(291, 34);
+            this.labelBestValue.Name = "labelBestValue";
+            this.labelBestValue.Size = new System.Drawing.Size(15, 16);
+            this.labelBestValue.TabIndex = 4;
+            this.labelBestValue.Text = "0";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(358, 537);
+            this.Controls.Add(this.labelBestValue);
+            this.Controls.Add(this.labelBest);
             this.Controls.Add(this.labelScoreValue);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.menuStrip1);
@@ -131,6 +155,8 @@
         private System.Windows.Forms.ToolStripMenuItem restartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
+        private System.Windows.Forms.Label labelBest;
+        private System.Windows.Forms.Label labelBestValue;
     }
 }
 
