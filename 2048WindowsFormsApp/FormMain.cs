@@ -21,17 +21,41 @@ namespace _2048WindowsFormsApp
 
         private int _score;
         private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
-
         public FormMain()
         {
             InitializeComponent();
         }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
             InitMap();
             GenerateNumber();
         }
+
+        private void WinGame()
+        {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
+
+            var result = MessageBox.Show("Вы выиграли!\nПовторить", "Ура!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Application.Restart();
+            }
+            Application.Exit();
+        }
+
+        private void EndGame()
+        {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
+
+            var result = MessageBox.Show("Вы проиграли!\nПовторить", "Увы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Application.Restart();
+            }
+            Application.Exit();
+        }
+
+
 
         /// <summary>
         /// Генерирует число в случайной пустой ячейки
@@ -55,11 +79,28 @@ namespace _2048WindowsFormsApp
                 var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
                 _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
+            else if(IsGameOver())
+            {
+                EndGame();
+            }
 
             _bestScore = _score > _bestScore ? _score : _bestScore;
 
             ShowScore();
             ShowBestScore();
+        }
+
+        private bool IsGameOver()
+        {
+            for (int i = 0; i < _mapSize - 1; i++)
+            {
+                for (int j = 0; j < _mapSize - 1; j++)
+                {
+                    if (_labelCells[i, j].Text == _labelCells[i, j + 1].Text || _labelCells[i, j].Text == _labelCells[i + 1, j].Text)
+                        return false;
+                }
+            }
+            return true;
         }
 
         private void ShowScore() => labelScoreValue.Text = _score.ToString();
@@ -82,6 +123,9 @@ namespace _2048WindowsFormsApp
                         int number = i * _mapSize + j;
                         list.Add(number);
                     }
+
+                    if (_labelCells[i, j].Text == "2048")
+                        WinGame();
                 }
             }
             return list;
@@ -331,13 +375,13 @@ namespace _2048WindowsFormsApp
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UsersScoreStorage.Add(new User() { Name = "Неизвестно", Score = _score });
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
             Application.Restart();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UsersScoreStorage.Add(new User() { Name = "Неизвестно", Score = _score });
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
             Application.Exit();
         }
 
