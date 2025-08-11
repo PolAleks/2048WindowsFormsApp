@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2048.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,7 @@ namespace _2048WindowsFormsApp
         private List<int> _emptyCells = new List<int>(); // Список пустых ячеек
 
         private int _score;
+        private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
 
         public FormMain()
         {
@@ -55,6 +57,9 @@ namespace _2048WindowsFormsApp
             }
 
             labelScoreValue.Text = _score.ToString();
+            _bestScore = _score > _bestScore ? _score : _bestScore;
+
+            labelBestValue.Text = _bestScore.ToString();
         }
 
         /// <summary>
@@ -299,11 +304,13 @@ namespace _2048WindowsFormsApp
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UsersScoreStorage.Add(new User() { Name = "Неизвестно", Score = _score });
             Application.Restart();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UsersScoreStorage.Add(new User() { Name = "Неизвестно", Score = _score });
             Application.Exit();
         }
 
