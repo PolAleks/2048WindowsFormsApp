@@ -7,9 +7,9 @@ namespace _2048.Common
     public class FileProvider
     {
         private static string _path = Environment.CurrentDirectory;
-        public bool Exists(string file) => File.Exists(Path.Combine(_path, file));
+        public static bool Exists(string file) => File.Exists(Path.Combine(_path, file));
 
-        public string Load(string file)
+        public static string Load(string file)
         {
             if (Exists(file))
             {
@@ -18,7 +18,7 @@ namespace _2048.Common
             return null;
         }
 
-        public void Save(string file, string content, out string error)
+        public static void Save(string file, string content, out string error)
         {
             try
             {
