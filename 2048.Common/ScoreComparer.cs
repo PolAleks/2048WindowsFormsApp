@@ -6,7 +6,7 @@ namespace _2048.Common
     {
         public int Compare(User x, User y)
         {
-            return x.Score.CompareTo(y.Score);
+            return -x.Score.CompareTo(y.Score);
         }
     }
 }
