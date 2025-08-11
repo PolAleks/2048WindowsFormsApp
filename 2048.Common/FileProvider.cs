@@ -18,17 +18,6 @@ namespace _2048.Common
             return null;
         }
 
-        public static void Save(string file, string content, out string error)
-        {
-            try
-            {
-                error = string.Empty;
-                File.WriteAllText(Path.Combine(_path, file), content, Encoding.UTF8);
-            }
-            catch(Exception e) 
-            {
-                error = e.Message;
-            }
-        }
+        public static void Save(string file, string content) => File.WriteAllText(Path.Combine(_path, file), content, Encoding.UTF8);
     }
 }
