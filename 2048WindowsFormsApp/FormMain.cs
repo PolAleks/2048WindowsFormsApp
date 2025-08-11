@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2048.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,17 +20,42 @@ namespace _2048WindowsFormsApp
         private List<int> _emptyCells = new List<int>(); // Список пустых ячеек
 
         private int _score;
-
+        private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
         public FormMain()
         {
             InitializeComponent();
         }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
             InitMap();
             GenerateNumber();
         }
+
+        private void WinGame()
+        {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
+
+            var result = MessageBox.Show("Вы выиграли!\nПовторить", "Ура!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Application.Restart();
+            }
+            Application.Exit();
+        }
+
+        private void EndGame()
+        {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
+
+            var result = MessageBox.Show("Вы проиграли!\nПовторить", "Увы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Application.Restart();
+            }
+            Application.Exit();
+        }
+
+
 
         /// <summary>
         /// Генерирует число в случайной пустой ячейки
@@ -53,9 +79,33 @@ namespace _2048WindowsFormsApp
                 var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
                 _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
+            else if(IsGameOver())
+            {
+                EndGame();
+            }
 
-            labelScoreValue.Text = _score.ToString();
+            _bestScore = _score > _bestScore ? _score : _bestScore;
+
+            ShowScore();
+            ShowBestScore();
         }
+
+        private bool IsGameOver()
+        {
+            for (int i = 0; i < _mapSize - 1; i++)
+            {
+                for (int j = 0; j < _mapSize - 1; j++)
+                {
+                    if (_labelCells[i, j].Text == _labelCells[i, j + 1].Text || _labelCells[i, j].Text == _labelCells[i + 1, j].Text)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private void ShowScore() => labelScoreValue.Text = _score.ToString();
+
+        private void ShowBestScore() => labelBestValue.Text = _bestScore.ToString();
 
         /// <summary>
         /// Формирует список номеров незаполненных ячеек
@@ -73,6 +123,9 @@ namespace _2048WindowsFormsApp
                         int number = i * _mapSize + j;
                         list.Add(number);
                     }
+
+                    if (_labelCells[i, j].Text == "2048")
+                        WinGame();
                 }
             }
             return list;
@@ -112,198 +165,223 @@ namespace _2048WindowsFormsApp
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
         {
+
+            if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down) return;
+
             if (e.KeyCode == Keys.Right)
             {
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = _mapSize - 1; j >= 0; j--)
-                    {
-                        if (_labelCells[i, j].Text != string.Empty)
-                        {
-                            for (int k = j - 1; k >= 0; k--)
-                            {
-                                if (_labelCells[i, k].Text != string.Empty)
-                                {
-                                    if (_labelCells[i, j].Text == _labelCells[i, k].Text)
-                                    {
-                                        int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                        _score += number;
-                                        _labelCells[i, j].Text = number.ToString();
-                                        _labelCells[i, k].Text = string.Empty;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = _mapSize - 1; j >= 0; j--)
-                    {
-                        if (_labelCells[i, j].Text == string.Empty)
-                        {
-                            for (int k = j - 1; k >= 0; k--)
-                            {
-                                if (_labelCells[i, k].Text != string.Empty)
-                                {
-                                    _labelCells[i, j].Text = _labelCells[i, k].Text;
-                                    _labelCells[i, k].Text = string.Empty;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                MoveRight();
             }
 
             if (e.KeyCode == Keys.Left)
             {
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = 0; j < _mapSize; j++)
-                    {
-                        if (_labelCells[i, j].Text != string.Empty)
-                        {
-                            for (int k = j + 1; k < _mapSize; k++)
-                            {
-                                if (_labelCells[i, k].Text != string.Empty)
-                                {
-                                    if (_labelCells[i, j].Text == _labelCells[i, k].Text)
-                                    {
-                                        int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                        _score += number;
-                                        _labelCells[i, j].Text = number.ToString();
-                                        _labelCells[i, k].Text = string.Empty;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = 0; j < _mapSize; j++)
-                    {
-                        if (_labelCells[i, j].Text == string.Empty)
-                        {
-                            for (int k = j + 1; k < _mapSize; k++)
-                            {
-                                if (_labelCells[i, k].Text != string.Empty)
-                                {
-                                    _labelCells[i, j].Text = _labelCells[i, k].Text;
-                                    _labelCells[i, k].Text = string.Empty;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                MoveLeft();
             }
 
             if (e.KeyCode == Keys.Up)
             {
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = 0; j < _mapSize; j++)
-                    {
-                        if (_labelCells[i, j].Text != string.Empty)
-                        {
-                            for (int k = i + 1; k < _mapSize; k++)
-                            {
-                                if (_labelCells[k, j].Text != string.Empty)
-                                {
-                                    if (_labelCells[i, j].Text == _labelCells[k, j].Text)
-                                    {
-                                        int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                        _score += number;
-                                        _labelCells[i, j].Text = number.ToString();
-                                        _labelCells[k, j].Text = string.Empty;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                for (int i = 0; i < _mapSize; i++)
-                {
-                    for (int j = 0; j < _mapSize; j++)
-                    {
-                        if (_labelCells[i, j].Text == string.Empty)
-                        {
-                            for (int k = i + 1; k < _mapSize; k++)
-                            {
-                                if (_labelCells[k, j].Text != string.Empty)
-                                {
-                                    _labelCells[i, j].Text = _labelCells[k, j].Text;
-                                    _labelCells[k, j].Text = string.Empty;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                MoveUp();
             }
 
             if (e.KeyCode == Keys.Down)
             {
-                for (int i = _mapSize - 1; i >= 0; i--)
-                {
-                    for (int j = 0; j < _mapSize; j++)
-                    {
-                        if (_labelCells[i, j].Text != string.Empty)
-                        {
-                            for (int k = i - 1; k >= 0; k--)
-                            {
-                                if (_labelCells[k, j].Text != string.Empty)
-                                {
-                                    if (_labelCells[k, j].Text == _labelCells[i, j].Text)
-                                    {
-                                        int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                        _score += number;
-                                        _labelCells[i, j].Text = number.ToString();
-                                        _labelCells[k, j].Text = string.Empty;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                MoveDown();
+            }
+            GenerateNumber();
+        }
 
-                for (int i = _mapSize - 1; i >= 0; i--)
+        private void MoveDown()
+        {
+            for (int i = _mapSize - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < _mapSize; j++)
                 {
-                    for (int j = 0; j < _mapSize; j++)
+                    if (_labelCells[i, j].Text != string.Empty)
                     {
-                        if (_labelCells[i, j].Text == string.Empty)
+                        for (int k = i - 1; k >= 0; k--)
                         {
-                            for (int k = i - 1; k >= 0; k--)
+                            if (_labelCells[k, j].Text != string.Empty)
                             {
-                                if (_labelCells[k, j].Text != string.Empty)
+                                if (_labelCells[k, j].Text == _labelCells[i, j].Text)
                                 {
-                                    _labelCells[i, j].Text = _labelCells[k, j].Text;
+                                    int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
+                                    _score += number;
+                                    _labelCells[i, j].Text = number.ToString();
                                     _labelCells[k, j].Text = string.Empty;
-                                    break;
                                 }
+                                break;
                             }
                         }
                     }
                 }
             }
-            GenerateNumber();
+
+            for (int i = _mapSize - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelCells[i, j].Text == string.Empty)
+                    {
+                        for (int k = i - 1; k >= 0; k--)
+                        {
+                            if (_labelCells[k, j].Text != string.Empty)
+                            {
+                                _labelCells[i, j].Text = _labelCells[k, j].Text;
+                                _labelCells[k, j].Text = string.Empty;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MoveUp()
+        {
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelCells[i, j].Text != string.Empty)
+                    {
+                        for (int k = i + 1; k < _mapSize; k++)
+                        {
+                            if (_labelCells[k, j].Text != string.Empty)
+                            {
+                                if (_labelCells[i, j].Text == _labelCells[k, j].Text)
+                                {
+                                    int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
+                                    _score += number;
+                                    _labelCells[i, j].Text = number.ToString();
+                                    _labelCells[k, j].Text = string.Empty;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelCells[i, j].Text == string.Empty)
+                    {
+                        for (int k = i + 1; k < _mapSize; k++)
+                        {
+                            if (_labelCells[k, j].Text != string.Empty)
+                            {
+                                _labelCells[i, j].Text = _labelCells[k, j].Text;
+                                _labelCells[k, j].Text = string.Empty;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MoveLeft()
+        {
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelCells[i, j].Text != string.Empty)
+                    {
+                        for (int k = j + 1; k < _mapSize; k++)
+                        {
+                            if (_labelCells[i, k].Text != string.Empty)
+                            {
+                                if (_labelCells[i, j].Text == _labelCells[i, k].Text)
+                                {
+                                    int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
+                                    _score += number;
+                                    _labelCells[i, j].Text = number.ToString();
+                                    _labelCells[i, k].Text = string.Empty;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelCells[i, j].Text == string.Empty)
+                    {
+                        for (int k = j + 1; k < _mapSize; k++)
+                        {
+                            if (_labelCells[i, k].Text != string.Empty)
+                            {
+                                _labelCells[i, j].Text = _labelCells[i, k].Text;
+                                _labelCells[i, k].Text = string.Empty;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MoveRight()
+        {
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = _mapSize - 1; j >= 0; j--)
+                {
+                    if (_labelCells[i, j].Text != string.Empty)
+                    {
+                        for (int k = j - 1; k >= 0; k--)
+                        {
+                            if (_labelCells[i, k].Text != string.Empty)
+                            {
+                                if (_labelCells[i, j].Text == _labelCells[i, k].Text)
+                                {
+                                    int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
+                                    _score += number;
+                                    _labelCells[i, j].Text = number.ToString();
+                                    _labelCells[i, k].Text = string.Empty;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = _mapSize - 1; j >= 0; j--)
+                {
+                    if (_labelCells[i, j].Text == string.Empty)
+                    {
+                        for (int k = j - 1; k >= 0; k--)
+                        {
+                            if (_labelCells[i, k].Text != string.Empty)
+                            {
+                                _labelCells[i, j].Text = _labelCells[i, k].Text;
+                                _labelCells[i, k].Text = string.Empty;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
             Application.Restart();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UsersScoreStorage.Add(new User("Неизвестно", _score));
             Application.Exit();
         }
 
