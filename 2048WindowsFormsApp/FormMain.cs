@@ -19,11 +19,13 @@ namespace _2048WindowsFormsApp
         private static Random rnd = new Random();
         private List<int> _emptyCells = new List<int>(); // Список пустых ячеек
 
-        private int _score;
+        //private int _score;
         private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
-        public FormMain()
+        private User _user;
+        public FormMain(string name)
         {
             InitializeComponent();
+            _user = new User(name);
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -33,7 +35,7 @@ namespace _2048WindowsFormsApp
 
         private void WinGame()
         {
-            UsersScoreStorage.Add(new User("Неизвестно", _score));
+            UsersScoreStorage.Add(_user);
 
             var result = MessageBox.Show("Вы выиграли!\nПовторить", "Ура!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
@@ -45,7 +47,7 @@ namespace _2048WindowsFormsApp
 
         private void EndGame()
         {
-            UsersScoreStorage.Add(new User("Неизвестно", _score));
+            UsersScoreStorage.Add(_user);
 
             var result = MessageBox.Show("Вы проиграли!\nПовторить", "Увы!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
@@ -79,12 +81,12 @@ namespace _2048WindowsFormsApp
                 var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
                 _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
-            else if(IsGameOver())
+            else if (IsGameOver())
             {
                 EndGame();
             }
 
-            _bestScore = _score > _bestScore ? _score : _bestScore;
+            _bestScore = _user.Score > _bestScore ? _user.Score : _bestScore;
 
             ShowScore();
             ShowBestScore();
@@ -103,7 +105,7 @@ namespace _2048WindowsFormsApp
             return true;
         }
 
-        private void ShowScore() => labelScoreValue.Text = _score.ToString();
+        private void ShowScore() => labelScoreValue.Text = _user.Score.ToString();
 
         private void ShowBestScore() => labelBestValue.Text = _bestScore.ToString();
 
@@ -205,7 +207,7 @@ namespace _2048WindowsFormsApp
                                 if (_labelCells[k, j].Text == _labelCells[i, j].Text)
                                 {
                                     int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                    _score += number;
+                                    _user.Score += number;
                                     _labelCells[i, j].Text = number.ToString();
                                     _labelCells[k, j].Text = string.Empty;
                                 }
@@ -251,7 +253,7 @@ namespace _2048WindowsFormsApp
                                 if (_labelCells[i, j].Text == _labelCells[k, j].Text)
                                 {
                                     int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                    _score += number;
+                                    _user.Score += number;
                                     _labelCells[i, j].Text = number.ToString();
                                     _labelCells[k, j].Text = string.Empty;
                                 }
@@ -297,7 +299,7 @@ namespace _2048WindowsFormsApp
                                 if (_labelCells[i, j].Text == _labelCells[i, k].Text)
                                 {
                                     int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                    _score += number;
+                                    _user.Score += number;
                                     _labelCells[i, j].Text = number.ToString();
                                     _labelCells[i, k].Text = string.Empty;
                                 }
@@ -342,7 +344,7 @@ namespace _2048WindowsFormsApp
                                 if (_labelCells[i, j].Text == _labelCells[i, k].Text)
                                 {
                                     int number = Convert.ToInt32(_labelCells[i, j].Text) * 2;
-                                    _score += number;
+                                    _user.Score += number;
                                     _labelCells[i, j].Text = number.ToString();
                                     _labelCells[i, k].Text = string.Empty;
                                 }
@@ -375,13 +377,13 @@ namespace _2048WindowsFormsApp
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UsersScoreStorage.Add(new User("Неизвестно", _score));
+            UsersScoreStorage.Add(_user);
             Application.Restart();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UsersScoreStorage.Add(new User("Неизвестно", _score));
+            UsersScoreStorage.Add(_user);
             Application.Exit();
         }
 
@@ -389,6 +391,12 @@ namespace _2048WindowsFormsApp
         {
             var rules = new FormRule();
             rules.ShowDialog();
+        }
+
+        private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var results = new FormResults();
+            results.ShowDialog();
         }
     }
 }
