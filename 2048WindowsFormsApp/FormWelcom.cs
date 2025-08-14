@@ -17,8 +17,6 @@ namespace _2048WindowsFormsApp
             InitializeComponent();
         }
 
-
-
         private void buttonStart_Click(object sender, EventArgs e)
         {
             var name = textBoxUserName.Text;
