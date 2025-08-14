@@ -12,18 +12,21 @@ namespace _2048WindowsFormsApp
 {
     public partial class FormWelcom : Form
     {
+        private List<RadioButton> _radioButtons;
         public FormWelcom()
         {
             InitializeComponent();
+            _radioButtons = new List<RadioButton>() { radioButtonSize4, radioButtonSize5, radioButtonSize6, radioButtonSize7 };
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            var name = textBoxUserName.Text;
+            string name = textBoxUserName.Text;
+            int mapSize = Convert.ToInt32(_radioButtons.Single(r => r.Checked).AccessibleName);
 
             if (!string.IsNullOrEmpty(name))
             {
-                var mainForm = new FormMain(name);
+                var mainForm = new FormMain(name, mapSize);
                 mainForm.Show();
                 mainForm.FormClosed += (s, arg) => this.Close();
                 this.Hide();

@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 537);
+            this.ClientSize = new System.Drawing.Size(350, 500);
             this.Controls.Add(this.labelBestValue);
             this.Controls.Add(this.labelBest);
             this.Controls.Add(this.labelScoreValue);

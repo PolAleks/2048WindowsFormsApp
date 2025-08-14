@@ -14,7 +14,7 @@ namespace _2048WindowsFormsApp
     public partial class FormMain : Form
     {
         private Label[,] _labelCells;
-        private int _mapSize = 4;
+        private int _mapSize;
 
         private static Random rnd = new Random();
         private List<int> _emptyCells = new List<int>(); // Список пустых ячеек
@@ -22,10 +22,12 @@ namespace _2048WindowsFormsApp
         //private int _score;
         private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
         private User _user;
-        public FormMain(string name)
+        public FormMain(string name, int mapSize)
         {
-            InitializeComponent();
             _user = new User(name);
+            _mapSize = mapSize;
+            InitializeComponent();
+            ClientSize = new Size(54 + 76 * _mapSize, 90 + 76 * _mapSize);
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
