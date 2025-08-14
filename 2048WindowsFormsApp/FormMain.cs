@@ -390,5 +390,11 @@ namespace _2048WindowsFormsApp
             var rules = new FormRule();
             rules.ShowDialog();
         }
+
+        private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var results = new FormResults();
+            results.ShowDialog();
+        }
     }
 }

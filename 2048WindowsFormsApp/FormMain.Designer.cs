@@ -37,6 +37,7 @@
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelBest = new System.Windows.Forms.Label();
             this.labelBestValue = new System.Windows.Forms.Label();
+            this.resultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +65,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainToolStripMenuItem,
-            this.rulesToolStripMenuItem});
+            this.rulesToolStripMenuItem,
+            this.resultsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(358, 24);
@@ -121,6 +123,13 @@
             this.labelBestValue.TabIndex = 4;
             this.labelBestValue.Text = "0";
             // 
+            // resultsToolStripMenuItem
+            // 
+            this.resultsToolStripMenuItem.Name = "resultsToolStripMenuItem";
+            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.resultsToolStripMenuItem.Text = "Результаты";
+            this.resultsToolStripMenuItem.Click += new System.EventHandler(this.resultsToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,6 +166,7 @@
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
         private System.Windows.Forms.Label labelBest;
         private System.Windows.Forms.Label labelBestValue;
+        private System.Windows.Forms.ToolStripMenuItem resultsToolStripMenuItem;
     }
 }
 
