@@ -35,9 +35,9 @@
             this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelBest = new System.Windows.Forms.Label();
             this.labelBestValue = new System.Windows.Forms.Label();
-            this.resultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +45,7 @@
             // 
             this.labelScore.AutoSize = true;
             this.labelScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelScore.Location = new System.Drawing.Point(122, 34);
+            this.labelScore.Location = new System.Drawing.Point(70, 34);
             this.labelScore.Name = "labelScore";
             this.labelScore.Size = new System.Drawing.Size(47, 16);
             this.labelScore.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             this.labelScoreValue.AutoSize = true;
             this.labelScoreValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelScoreValue.Location = new System.Drawing.Point(175, 34);
+            this.labelScoreValue.Location = new System.Drawing.Point(123, 34);
             this.labelScoreValue.Name = "labelScoreValue";
             this.labelScoreValue.Size = new System.Drawing.Size(15, 16);
             this.labelScoreValue.TabIndex = 1;
@@ -69,7 +69,7 @@
             this.resultsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(358, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(350, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -103,11 +103,18 @@
             this.rulesToolStripMenuItem.Text = "Правила игры";
             this.rulesToolStripMenuItem.Click += new System.EventHandler(this.rulesToolStripMenuItem_Click);
             // 
+            // resultsToolStripMenuItem
+            // 
+            this.resultsToolStripMenuItem.Name = "resultsToolStripMenuItem";
+            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.resultsToolStripMenuItem.Text = "Результаты";
+            this.resultsToolStripMenuItem.Click += new System.EventHandler(this.resultsToolStripMenuItem_Click);
+            // 
             // labelBest
             // 
             this.labelBest.AutoSize = true;
             this.labelBest.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelBest.Location = new System.Drawing.Point(218, 34);
+            this.labelBest.Location = new System.Drawing.Point(184, 34);
             this.labelBest.Name = "labelBest";
             this.labelBest.Size = new System.Drawing.Size(67, 16);
             this.labelBest.TabIndex = 3;
@@ -117,18 +124,11 @@
             // 
             this.labelBestValue.AutoSize = true;
             this.labelBestValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelBestValue.Location = new System.Drawing.Point(291, 34);
+            this.labelBestValue.Location = new System.Drawing.Point(257, 34);
             this.labelBestValue.Name = "labelBestValue";
             this.labelBestValue.Size = new System.Drawing.Size(15, 16);
             this.labelBestValue.TabIndex = 4;
             this.labelBestValue.Text = "0";
-            // 
-            // resultsToolStripMenuItem
-            // 
-            this.resultsToolStripMenuItem.Name = "resultsToolStripMenuItem";
-            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.resultsToolStripMenuItem.Text = "Результаты";
-            this.resultsToolStripMenuItem.Click += new System.EventHandler(this.resultsToolStripMenuItem_Click);
             // 
             // FormMain
             // 

@@ -13,13 +13,17 @@ namespace _2048WindowsFormsApp
 {
     public partial class FormMain : Form
     {
+        private const int labelSize = 70;
+        private const int labelPadding = 6;
+        private const int marginLeft = 6;
+        private const int marginUp = 70;
+
         private Label[,] _labelCells;
         private int _mapSize;
 
         private static Random rnd = new Random();
         private List<int> _emptyCells = new List<int>(); // Список пустых ячеек
 
-        //private int _score;
         private int _bestScore = UsersScoreStorage.GetBestScore()?.Score ?? 0;
         private User _user;
         public FormMain(string name, int mapSize)
@@ -27,7 +31,7 @@ namespace _2048WindowsFormsApp
             _user = new User(name);
             _mapSize = mapSize;
             InitializeComponent();
-            ClientSize = new Size(54 + 76 * _mapSize, 90 + 76 * _mapSize);
+            ClientSize = new Size(marginLeft + (labelSize + labelPadding) * _mapSize, marginUp + (labelSize + labelPadding) * _mapSize);
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -157,11 +161,11 @@ namespace _2048WindowsFormsApp
             labelCell.BackColor = Color.RosyBrown;
             labelCell.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
             labelCell.ForeColor = Color.White;
-            labelCell.Size = new Size(70, 70);
+            labelCell.Size = new Size(labelSize, labelSize);
             labelCell.TextAlign = ContentAlignment.MiddleCenter;
 
-            int x = 30 + indexColumn * 76;
-            int y = 70 + indexRow * 76;
+            int x = marginLeft + indexColumn * (labelSize + labelPadding);
+            int y = marginUp + indexRow * (labelSize + labelPadding);
             labelCell.Location = new Point(x, y);
 
             return labelCell;
