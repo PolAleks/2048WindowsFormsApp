@@ -86,7 +86,6 @@ namespace _2048WindowsFormsApp
                 // Генерация чилса 2 или 4 в соотношении 75% на 25%
                 var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
 
-                _labelCells[rowIndex, columnIndex].BackColor = GetColor(number);
                 _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
             else if (IsGameOver())
@@ -100,24 +99,6 @@ namespace _2048WindowsFormsApp
             ShowBestScore();
         }
 
-        private Color GetColor(int number)
-        {
-            switch(number)
-            {
-                case 2: return Color.FromArgb(255, 165, 0);
-                case 4: return Color.FromArgb(234, 151, 0);
-                case 8: return Color.FromArgb(214, 138, 0);
-                case 16: return Color.FromArgb(193, 125, 0);
-                case 32: return Color.FromArgb(173, 112, 0);
-                case 64: return Color.FromArgb(153, 99, 0);
-                case 128: return Color.FromArgb(132, 85, 0);
-                case 256: return Color.FromArgb(112, 72, 0);
-                case 512: return Color.FromArgb(91, 59, 0);
-                case 1024: return Color.FromArgb(71, 46, 0);
-                case 2048: return Color.FromArgb(50, 32, 0);
-                default: return Color.Orange;
-            };
-        }
 
         private bool IsGameOver()
         {
@@ -154,12 +135,7 @@ namespace _2048WindowsFormsApp
                         int number = i * _mapSize + j;
                         list.Add(number);
                     }
-                    else
-                    {
-                        int value = Convert.ToInt32(_labelCells[i, j].Text);
-                        _labelCells[i,j].BackColor = GetColor(value);
-                    }
-
+                    
                     if (_labelCells[i, j].Text == "2048")
                         WinGame();
                 }
@@ -196,7 +172,29 @@ namespace _2048WindowsFormsApp
             int y = marginUp + indexRow * (labelSize + labelPadding);
             labelCell.Location = new Point(x, y);
 
+            labelCell.TextChanged += LabelCell_TextChanged;
+
             return labelCell;
+        }
+
+        private static void LabelCell_TextChanged(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            switch (label.Text)
+            {
+                case "2": label.BackColor = Color.FromArgb(255, 165, 0); break;
+                case "4": label.BackColor = Color.FromArgb(234, 151, 0); break;
+                case "8": label.BackColor = Color.FromArgb(214, 138, 0); break;
+                case "32": label.BackColor = Color.FromArgb(173, 112, 0); break;
+                case "64": label.BackColor = Color.FromArgb(153, 99, 0); break;
+                case "128": label.BackColor = Color.FromArgb(132, 85, 0); break;
+                case "256": label.BackColor = Color.FromArgb(112, 72, 0); break;
+                case "512": label.BackColor = Color.FromArgb(91, 59, 0); break;
+                case "1024": label.BackColor = Color.FromArgb(71, 46, 0); break;
+                case "2048": label.BackColor = Color.FromArgb(50, 32, 0); break;
+                default: label.BackColor = Color.Orange; break;
+            }
+            ;
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
