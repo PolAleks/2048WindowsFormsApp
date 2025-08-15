@@ -85,6 +85,8 @@ namespace _2048WindowsFormsApp
 
                 // Генерация чилса 2 или 4 в соотношении 75% на 25%
                 var number = new int[] { 2, 2, 2, 4 }[rnd.Next(4)];
+
+                _labelCells[rowIndex, columnIndex].BackColor = GetColor(number);
                 _labelCells[rowIndex, columnIndex].Text = number.ToString();
             }
             else if (IsGameOver())
@@ -96,6 +98,25 @@ namespace _2048WindowsFormsApp
 
             ShowScore();
             ShowBestScore();
+        }
+
+        private Color GetColor(int number)
+        {
+            switch(number)
+            {
+                case 2: return Color.FromArgb(255, 165, 0);
+                case 4: return Color.FromArgb(234, 151, 0);
+                case 8: return Color.FromArgb(214, 138, 0);
+                case 16: return Color.FromArgb(193, 125, 0);
+                case 32: return Color.FromArgb(173, 112, 0);
+                case 64: return Color.FromArgb(153, 99, 0);
+                case 128: return Color.FromArgb(132, 85, 0);
+                case 256: return Color.FromArgb(112, 72, 0);
+                case 512: return Color.FromArgb(91, 59, 0);
+                case 1024: return Color.FromArgb(71, 46, 0);
+                case 2048: return Color.FromArgb(50, 32, 0);
+                default: return Color.Orange;
+            };
         }
 
         private bool IsGameOver()
@@ -126,10 +147,17 @@ namespace _2048WindowsFormsApp
             {
                 for (int j = 0; j < _mapSize; j++)
                 {
+                    
                     if (_labelCells[i, j].Text == string.Empty)
                     {
+                        _labelCells[i, j].BackColor = Color.Orange;
                         int number = i * _mapSize + j;
                         list.Add(number);
+                    }
+                    else
+                    {
+                        int value = Convert.ToInt32(_labelCells[i, j].Text);
+                        _labelCells[i,j].BackColor = GetColor(value);
                     }
 
                     if (_labelCells[i, j].Text == "2048")
@@ -158,7 +186,7 @@ namespace _2048WindowsFormsApp
         private static Label GetLabelCell(int indexRow, int indexColumn)
         {
             var labelCell = new Label();
-            labelCell.BackColor = Color.RosyBrown;
+            labelCell.BackColor = Color.Orange;
             labelCell.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(204)));
             labelCell.ForeColor = Color.White;
             labelCell.Size = new Size(labelSize, labelSize);
